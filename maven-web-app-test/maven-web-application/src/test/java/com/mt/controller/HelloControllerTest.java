@@ -1,18 +1,25 @@
 package com.mt.controller;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
-import org.springframework.ui.ModelMap;
+import static org.junit.Assert.*;
+
+import org.springframework.ui.Model;
+import org.springframework.ui.ExtendedModelMap;   // <-- key change
 
 public class HelloControllerTest {
 
     @Test
     public void testHome() {
-        HelloController ctrl = new HelloController();
-        ModelMap model = new ModelMap();
-        String view = ctrl.home(model);
+        // ExtendedModelMap implements Model
+        Model model = new ExtendedModelMap();
+
+        HelloController controller = new HelloController();
+        String view = controller.home(model);
+
         assertEquals("home", view);
-        assertTrue(model.containsKey("message"));
-        assertEquals("Hello, DevOps Academy!", model.get("message"));
+        assertTrue(model.asMap().containsKey("message"));
+        assertEquals("Hello, DevOps Academy!", model.asMap().get("message"));
     }
 }
+
+
