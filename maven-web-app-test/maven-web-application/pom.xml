@@ -26,9 +26,9 @@
     <log4j.version>1.2.17</log4j.version>
 
     <!-- SonarQube Integration (⚠️ Hardcoded credentials for TEACHING PURPOSES ONLY!) -->
-    <sonar.host.url>http://67.202.32.33:9000</sonar.host.url>
+    <sonar.host.url>http://3.8.174.114:9000</sonar.host.url>
     <sonar.login>admin</sonar.login>
-    <sonar.password>Admin@123456</sonar.password>
+    <sonar.password>admin</sonar.password>
     <sonar.projectKey>com.mt:maven-web-application</sonar.projectKey>
     <sonar.projectName>maven-web-application</sonar.projectName>
     <sonar.projectVersion>0.0.2-SNAPSHOT</sonar.projectVersion>
