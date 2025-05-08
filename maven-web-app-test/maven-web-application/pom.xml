@@ -3,40 +3,50 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!-- build triggers -->
+
+  <!-- Project coordinates -->
   <groupId>com.mt</groupId>
   <artifactId>maven-web-application</artifactId>
   <packaging>war</packaging>
-  
-  <version>0.0.2-SNAPSHOT</version> 
+  <version>0.0.2-SNAPSHOT</version>
+
   <name>maven-web-application</name>
   <description>Maven Web Project for Java Project</description>
+
   <organization>
     <name>Devops Academy</name> 
     <url>https://m-pasima.github.io/The-DevOps-Academy/</url>
   </organization>
 
   <properties>
+    <!-- Java & Framework Versions -->
     <jdk.version>1.8</jdk.version>
     <spring.version>5.1.2.RELEASE</spring.version>
     <junit.version>4.13.2</junit.version>
     <log4j.version>1.2.17</log4j.version>
-    <sonar.host.url>http://67.202.32.33:9000/</sonar.host.url>
+
+    <!-- SonarQube Integration (⚠️ Hardcoded credentials for TEACHING PURPOSES ONLY!) -->
+    <sonar.host.url>http://67.202.32.33:9000</sonar.host.url>
     <sonar.login>admin</sonar.login>
     <sonar.password>Admin@123456</sonar.password>
+    <sonar.projectKey>com.mt:maven-web-application</sonar.projectKey>
+    <sonar.projectName>maven-web-application</sonar.projectName>
+    <sonar.projectVersion>0.0.2-SNAPSHOT</sonar.projectVersion>
+
+    <!-- Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
- <!-- ⚠️ Hardcoded credentials for TEACHING PURPOSES ONLY! -->
+
   <dependencies>
-    <!-- JSON library -->
+    <!-- JSON Processing -->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20160212</version>
     </dependency>
 
-    <!-- compile dependencies -->
+    <!-- Spring Framework Dependencies -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
@@ -58,7 +68,7 @@
       <version>${spring.version}</version>
     </dependency>
 
-    <!-- Servlet API provided by container -->
+    <!-- Servlet API (provided by Servlet container, not packaged into WAR) -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -66,7 +76,7 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- test dependencies -->
+    <!-- Test Dependencies -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
@@ -102,33 +112,34 @@
 
   <build>
     <finalName>range-rover</finalName>
+
     <plugins>
-      <!-- compiler -->
+      <!-- Java Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.8.1</version>
         <configuration>
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
         </configuration>
       </plugin>
 
-      <!-- WAR plugin -->
+      <!-- WAR Packaging Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>3.2.3</version>
+        <version>3.3.2</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
 
-      <!-- Eclipse integration -->
+      <!-- Eclipse Integration -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
-        <version>2.9</version>
+        <version>2.10</version>
         <configuration>
           <downloadSources>true</downloadSources>
           <downloadJavadocs>true</downloadJavadocs>
@@ -136,7 +147,15 @@
           <wtpContextName>maven-web-application</wtpContextName>
         </configuration>
       </plugin>
+
+      <!-- SonarQube Scanner (explicitly added for clarity) -->
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.9.1.2184</version>
+      </plugin>
     </plugins>
   </build>
 </project>
+
 
