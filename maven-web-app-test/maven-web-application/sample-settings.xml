@@ -3,33 +3,35 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                               https://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-  <!-- 1. Server credentials for deploying to Nexus -->
+  <!-- your servers, mirrors, profiles… -->
   <servers>
     <server>
-      <id>nexus</id>
+      <id>nexus-releases</id>
       <username>admin</username>
-      <password>admin123</password>
+      <password>admin</password>
+    </server>
+    <server>
+      <id>nexus-snapshots</id>
+      <username>admin</username>
+      <password>admin</password>
     </server>
   </servers>
 
-  <!-- 2. Mirror everything through your Nexus “maven-public” group -->
   <mirrors>
     <mirror>
       <id>nexus</id>
       <mirrorOf>*</mirrorOf>
-      <url>http://3.8.117.175:8081/repository/maven-proxy-repo/</url>
+      <url>http://3.8.117.175:8081/repository/maven-proxy/</url>
     </mirror>
   </mirrors>
 
-  <!-- 3. Activate any Nexus-specific settings/plugins -->
   <profiles>
     <profile>
       <id>nexus</id>
-      <!-- e.g. if you need to pull plugins through Nexus too -->
       <pluginRepositories>
         <pluginRepository>
           <id>nexus-plugins</id>
-          <url>http://central</url>
+          <url>http://3.8.117.175:8081/repository/maven-proxy/</url>
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
         </pluginRepository>
@@ -37,10 +39,8 @@
     </profile>
   </profiles>
 
-  <!-- 4. Turn on the Nexus profile by default -->
+  <!-- ← add this section to auto‐activate! -->
   <activeProfiles>
     <activeProfile>nexus</activeProfile>
   </activeProfiles>
-
 </settings>
-
