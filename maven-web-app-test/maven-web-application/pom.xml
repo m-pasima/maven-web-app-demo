@@ -8,7 +8,7 @@
   <groupId>com.mt</groupId>
   <artifactId>maven-web-application</artifactId>
   <packaging>war</packaging>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3`-RELEASE</version>
 
   <name>maven-web-application</name>
   <description>Maven Web Project for Java Project</description>
@@ -25,7 +25,7 @@
     <junit.version>4.13.2</junit.version>
     <log4j.version>1.2.17</log4j.version>
 
-    <!-- SonarQube Integration (⚠️ teaching only!) -->
+    <!-- SonarQube Integration (teaching only!) -->
     <sonar.host.url>http://52.56.231.48:9000</sonar.host.url>
     <sonar.login>admin</sonar.login>
     <sonar.password>admin</sonar.password>
@@ -45,8 +45,7 @@
       <artifactId>json</artifactId>
       <version>20160212</version>
     </dependency>
-
-    <!-- Spring Framework Dependencies -->
+    <!-- Spring Framework -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
@@ -68,7 +67,7 @@
       <version>${spring.version}</version>
     </dependency>
 
-    <!-- Servlet API (provided by container) -->
+    <!-- Servlet API (provided) -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -76,7 +75,7 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- Test Dependencies -->
+    <!-- Testing -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
@@ -97,28 +96,27 @@
     </dependency>
   </dependencies>
 
-  <!-- Distribution Management: both Releases and Snapshots -->
+
   <distributionManagement>
-    <!-- Releases -->
+    <!-- Release repository (for non‐SNAPSHOT versions) -->
     <repository>
       <id>nexus-releases</id>
       <name>DevOps Academy Release Nexus Repo</name>
-      <url>http://54.227.178.32:8181/devops/repository/tesla-be-releases/</url>
+      <url>http://3.8.117.175:8081/repository/maven-release-repo/</url>
     </repository>
 
-    <!-- Snapshots -->
+    <!-- Snapshot repository (for versions ending in -SNAPSHOT) -->
     <snapshotRepository>
       <id>nexus-snapshots</id>
       <name>DevOps Academy Snapshot Nexus Repo</name>
-      <url>http://54.227.178.32:8181/devops/repository/tesla-be-snapshots/</url>
+      <url>http://3.8.117.175:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 
   <build>
     <finalName>range-rover</finalName>
-
     <plugins>
-      <!-- Java Compiler -->
+      <!-- Compiler -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -129,7 +127,7 @@
         </configuration>
       </plugin>
 
-      <!-- WAR Packaging -->
+      <!-- WAR -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -139,7 +137,7 @@
         </configuration>
       </plugin>
 
-      <!-- Eclipse Integration -->
+      <!-- Eclipse WTP -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
@@ -152,7 +150,7 @@
         </configuration>
       </plugin>
 
-      <!-- SonarQube Scanner -->
+      <!-- SonarQube -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
@@ -161,5 +159,4 @@
     </plugins>
   </build>
 </project>
-
 
