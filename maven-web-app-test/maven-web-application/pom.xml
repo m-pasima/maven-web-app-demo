@@ -14,7 +14,7 @@
   <description>Maven Web Project for Java Project</description>
 
   <organization>
-    <name>Devops Academy</name> 
+    <name>Devops Academy</name>
     <url>https://m-pasima.github.io/The-DevOps-Academy/</url>
   </organization>
 
@@ -25,7 +25,7 @@
     <junit.version>4.13.2</junit.version>
     <log4j.version>1.2.17</log4j.version>
 
-    <!-- SonarQube Integration (⚠️ Hardcoded credentials for TEACHING PURPOSES ONLY!) -->
+    <!-- SonarQube Integration (⚠️ teaching only!) -->
     <sonar.host.url>http://52.56.231.48:9000</sonar.host.url>
     <sonar.login>admin</sonar.login>
     <sonar.password>admin</sonar.password>
@@ -68,7 +68,7 @@
       <version>${spring.version}</version>
     </dependency>
 
-    <!-- Servlet API (provided by Servlet container, not packaged into WAR) -->
+    <!-- Servlet API (provided by container) -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -95,17 +95,21 @@
       <version>1.9.5</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>  
+  </dependencies>
 
+  <!-- Distribution Management: both Releases and Snapshots -->
   <distributionManagement>
+    <!-- Releases -->
     <repository>
-      <id>nexus</id>
-      <name>dummy</name>
-      <url>dummy</url>
+      <id>nexus-releases</id>
+      <name>DevOps Academy Release Nexus Repo</name>
+      <url>http://54.227.178.32:8181/devops/repository/tesla-be-releases/</url>
     </repository>
+
+    <!-- Snapshots -->
     <snapshotRepository>
-      <id>nexus</id>
-      <name>devops academy Snapshot Nexus Repository</name>
+      <id>nexus-snapshots</id>
+      <name>DevOps Academy Snapshot Nexus Repo</name>
       <url>http://54.227.178.32:8181/devops/repository/tesla-be-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
@@ -114,7 +118,7 @@
     <finalName>range-rover</finalName>
 
     <plugins>
-      <!-- Java Compiler Plugin -->
+      <!-- Java Compiler -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -125,7 +129,7 @@
         </configuration>
       </plugin>
 
-      <!-- WAR Packaging Plugin -->
+      <!-- WAR Packaging -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -148,7 +152,7 @@
         </configuration>
       </plugin>
 
-      <!-- SonarQube Scanner (explicitly added for clarity) -->
+      <!-- SonarQube Scanner -->
       <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
