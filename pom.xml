@@ -28,7 +28,7 @@
     <!-- SonarQube Integration (teaching only!) -->
     <sonar.host.url>http://18.130.58.243:9000</sonar.host.url>
     <sonar.login>passy</sonar.login>
-    <sonar.password>passy</sonar.password>
+    <sonar.password>sqa_b6c8f34a84007eaee057387724d455e033d118bf</sonar.password>
     <sonar.projectKey>com.mt:maven-web-application</sonar.projectKey>
     <sonar.projectName>maven-web-application</sonar.projectName>
     <sonar.projectVersion>0.0.2-SNAPSHOT</sonar.projectVersion>
