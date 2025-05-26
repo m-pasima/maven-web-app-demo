@@ -114,7 +114,7 @@
   </distributionManagement>
 
   <build>
-    <finalName>range-rover</finalName>
+    <finalName>tesla</finalName>
     <plugins>
       <!-- Compiler -->
       <plugin>
