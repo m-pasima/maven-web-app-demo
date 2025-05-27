@@ -100,14 +100,14 @@
   <distributionManagement>
     <!-- Release repository (for non‐SNAPSHOT versions) -->
     <repository>
-      <id>nexus-releases</id>
+      <id>nexus</id>
       <name>DevOps Academy Release Nexus Repo</name>
       <url>http://35.178.244.101:8081/repository/range-rover-release/</url>
     </repository>
 
     <!-- Snapshot repository (for versions ending in -SNAPSHOT) -->
     <snapshotRepository>
-      <id>nexus-snapshots</id>
+      <id>nexus</id>
       <name>DevOps Academy Snapshot Nexus Repo</name>
       <url>http://3.8.142.161:8081/repository/test-snapshot/</url>
     </snapshotRepository>
