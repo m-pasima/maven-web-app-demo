@@ -109,7 +109,7 @@
     <snapshotRepository>
       <id>nexus-snapshots</id>
       <name>DevOps Academy Snapshot Nexus Repo</name>
-      <url>http://3.8.142.161:8081/repository/maven-test-repo/</url>
+      <url>http://3.8.142.161:8081/repository/test-snapshot/</url>
     </snapshotRepository>
   </distributionManagement>
 
