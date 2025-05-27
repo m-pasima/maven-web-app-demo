@@ -109,7 +109,7 @@
     <snapshotRepository>
       <id>nexus-snapshots</id>
       <name>DevOps Academy Snapshot Nexus Repo</name>
-      <url>http://35.178.244.101:8081/repository/range-rover-snapshot/</url>
+      <url>http://3.8.142.161:8081/repository/maven-test-repo/</url>
     </snapshotRepository>
   </distributionManagement>
 
