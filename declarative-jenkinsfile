@@ -1,1 +1,74 @@
+pipeline {
+    agent any
 
+    environment {
+        // Uses Jenkins tool with name 'maven3.9.9'
+        MVN_HOME = tool name: 'maven3.9.9', type: 'maven'
+        // You can also declare other environment variables here
+    }
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/m-pasima/maven-web-app-demo.git'
+            }
+        }
+
+        stage('Print Maven Home') {
+            steps {
+                echo "Maven Home is: ${env.MVN_HOME}"
+            }
+        }
+
+        stage('Clean and Package') {
+            steps {
+                sh "${env.MVN_HOME}/bin/mvn clean package"
+            }
+        }
+
+        stage('Scan with SonarQube') {
+            steps {
+                sh "${env.MVN_HOME}/bin/mvn clean verify sonar:sonar"
+            }
+        }
+
+        stage('Upload to Nexus') {
+            steps {
+                sh "${env.MVN_HOME}/bin/mvn deploy"
+            }
+        }
+
+        stage('Deploy To Tomcat') {
+            steps {
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat-cred', path: '', url: 'http://18.175.51.133:8080')],
+                       contextPath: 'tesla.war', war: '**/*.war'
+            }
+        }
+    }
+
+    post {
+    success {
+        slackSend(
+            channel: 'devopsacademyworld',
+            message: """Build Status: SUCCESS
+Job Name: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
+Branch: ${env.GIT_BRANCH ?: 'main'}
+Build URL: ${env.BUILD_URL}
+"""
+        )
+    }
+    failure {
+        slackSend(
+            channel: 'devopsacademyworld',
+            message: """Build Status: FAILED
+Job Name: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
+Branch: ${env.GIT_BRANCH ?: 'main'}
+Build URL: ${env.BUILD_URL}
+"""
+        )
+    }
+}
+
+}
