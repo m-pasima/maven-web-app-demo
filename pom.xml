@@ -102,14 +102,14 @@
     <repository>
       <id>nexus-releases</id>
       <name>DevOps Academy Release Nexus Repo</name>
-      <url>http://3.8.117.175:8081/repository/maven-release-repo/</url>
+      <url>http://35.178.244.101:8081/repository/range-rover-release/</url>
     </repository>
 
     <!-- Snapshot repository (for versions ending in -SNAPSHOT) -->
     <snapshotRepository>
       <id>nexus-snapshots</id>
       <name>DevOps Academy Snapshot Nexus Repo</name>
-      <url>http://3.8.117.175:8081/repository/maven-snapshots/</url>
+      <url>http://35.178.244.101:8081/repository/range-rover-snapshot/</url>
     </snapshotRepository>
   </distributionManagement>
 
