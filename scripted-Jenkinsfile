@@ -1,0 +1,24 @@
+#Scripted Jenkinsfile
+
+node {
+    def mvnHome = tool 'maven 3.9.9' 
+    def tomcatHost = '18.175.197.171'
+    def tomcatPort = '8080'
+    def contextPath = '/tesla'
+    def warFile = 'target/tesla.war'
+
+    stage('Checkout Source') {
+        git branch: 'main', url: 'https://github.com/m-pasima/maven-web-app-demo.git'
+    }
+     stage('Build with Maven') {
+        sh "${mvnHome}/bin/mvn clean package"
+    }
+
+     stage('Scan with sonarqube') {
+        sh "${mvnHome}/bin/mvn verify sonar:sonar"
+    }
+    stage('Build and Deploy to Nexus') {
+        sh "${mvnHome}/bin/mvn clean deploy"
+    }
+    
+}   
