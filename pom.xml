@@ -8,7 +8,7 @@
   <groupId>com.mt</groupId>
   <artifactId>maven-web-application</artifactId>
   <packaging>war</packaging>
-  <version>0.0.3`-SNAPSHOT</version>
+  <version>0.0.4`-RELEASE</version>
 
   <name>maven-web-application</name>
   <description>Maven Web Project for Java Project</description>
@@ -102,7 +102,7 @@
     <repository>
       <id>nexus</id>
       <name>DevOps Academy Release Nexus Repo</name>
-      <url>http://35.178.244.101:8081/repository/range-rover-release/</url>
+      <url>http://52.56.235.178:8081/repository/tesla-release/</url>
     </repository>
 
     <!-- Snapshot repository (for versions ending in -SNAPSHOT) -->
