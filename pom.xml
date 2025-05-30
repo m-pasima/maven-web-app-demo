@@ -114,7 +114,7 @@
   </distributionManagement>
 
   <build>
-    <finalName>Barclays</finalName>
+    <finalName>tesco</finalName>
     <plugins>
       <!-- Compiler -->
       <plugin>
