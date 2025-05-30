@@ -8,7 +8,7 @@
   <groupId>com.mt</groupId>
   <artifactId>maven-web-application</artifactId>
   <packaging>war</packaging>
-  <version>0.0.4`-RELEASE</version>
+  <version>0.0.1`-RELEASE</version>
 
   <name>maven-web-application</name>
   <description>Maven Web Project for Java Project</description>
@@ -26,7 +26,7 @@
     <log4j.version>1.2.17</log4j.version>
 
     <!-- SonarQube Integration (teaching only!) -->
-    <sonar.host.url>http://3.8.124.212:9000</sonar.host.url>
+    <sonar.host.url>http://3.9.16.83:9000</sonar.host.url>
     <sonar.login>admin</sonar.login>
     <sonar.password>admin1</sonar.password>
     <sonar.projectKey>com.mt:maven-web-application</sonar.projectKey>
@@ -102,19 +102,19 @@
     <repository>
       <id>nexus</id>
       <name>DevOps Academy Release Nexus Repo</name>
-      <url>http://52.56.235.178:8081/repository/tesla-release/</url>
+      <url>http://13.42.8.22:8081/repository/Barclays-release/</url>
     </repository>
 
     <!-- Snapshot repository (for versions ending in -SNAPSHOT) -->
     <snapshotRepository>
       <id>nexus</id>
       <name>DevOps Academy Snapshot Nexus Repo</name>
-      <url>http://3.8.142.161:8081/repository/test-snapshot/</url>
+      <url>http://13.42.8.22:8081/repository/Barclays-snapshot/</url>
     </snapshotRepository>
   </distributionManagement>
 
   <build>
-    <finalName>tesla</finalName>
+    <finalName>Barclays</finalName>
     <plugins>
       <!-- Compiler -->
       <plugin>
