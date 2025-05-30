@@ -1,267 +1,74 @@
 
-```markdown
-# DevOps Academy - Maven Web Application
+# ğŸš€ DevOps Academy - Maven Web Application
 
-This is a simple Java Maven-based Spring MVC web application packaged as a WAR file. The project demonstrates a full DevOps CI/CD pipeline with the following stack:
-
-- âœ… **Maven** for build management  
-- âœ… **SonarQube** for code quality analysis  
-- âœ… **Nexus** for artifact storage  
-- âœ… **Docker** for containerization  
-- âœ… **Apache Tomcat** for deployment  
-- âœ… **Kubernetes** for container orchestration  
-- âœ… **Jenkins** for CI/CD automation  
+Welcome to the ultimate hands-on DevOps pipeline demo! This project is a **Spring MVC web app** built with Maven and designed to showcase an enterprise-grade, cloud-native CI/CD pipeline.
 
 ---
 
-## í´§ Project Structure
+## ğŸ“¦ Automated Setup
 
-```
-maven-web-application/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ main/
-â”‚   â”‚   â””â”€â”€ java/com/mt/controller/HelloController.java
-â”‚   â””â”€â”€ test/
-â”‚       â””â”€â”€ java/com/mt/controller/HelloControllerTest.java
-â”œâ”€â”€ pom.xml
-â”œâ”€â”€ Dockerfile
-â”œâ”€â”€ Jenkinsfile
-â””â”€â”€ k8s-deployment.yaml
-```
+### ğŸ› ï¸ **Installation Scripts**
+
+- **Quick-start installation scripts** for tools like Java, Maven, Docker, SonarQube, Nexus, Jenkins, and Tomcat are available here:  
+  ğŸ‘‰ [DevOps-class-installation-scripts](https://github.com/m-pasima/DevOps-class-installation-scripts.git)
+
+    - These scripts are designed to help you set up your DevOps tools on Linux VMs quickly and reproducibly.
+    - **Best Practice:** Always review scripts before running, and test on non-production VMs first!
 
 ---
 
-## íº€ Getting Started
+### â˜ï¸ **Automated Cloud Lab with Terraform**
 
-### í·° Prerequisites
+- Want to spin up a complete DevOps labâ€”including **EC2 servers** and auto-install of SonarQube, Nexus, Jenkins, and Tomcat?  
+  ğŸ‘‰ Use this Terraform project:  
+  [terraform-aws-devops-lab](https://github.com/m-pasima/terraform-aws-devops-lab.git)
 
-Ensure the following are installed:
-
-- Java 8
-- Maven 3.8+
-- Docker
-- Jenkins
-- Kubernetes cluster (minikube, EKS, etc.)
-- SonarQube
-- Nexus Repository Manager
+    - **Scenario:** Launch a ready-to-go CI/CD environment in AWS with a single `terraform apply`.
+    - **Warning:** These scripts will create AWS resources and may incur costsâ€”destroy resources when finished (`terraform destroy`).
 
 ---
 
-## í³¦ Maven Build
+## ğŸ› ï¸ Stack Overview
 
-```bash
-mvn clean install
-```
-
-This will generate the `range-rover.war` under `target/`.
-
----
-
-## í³Š SonarQube Integration
-
-Configure your `pom.xml` with:
-
-```xml
-<properties>
-  <sonar.host.url>http://<sonarqube-ip>:9000</sonar.host.url>
-  <sonar.login>your-token</sonar.login>
-</properties>
-```
-
-To analyze:
-
-```bash
-mvn sonar:sonar
-```
+- **Maven** â€“ Build & dependency management
+- **SonarQube** â€“ Code quality & security scanning
+- **Nexus** â€“ Artifact repository (release & snapshot)
+- **Docker** â€“ App containerization
+- **Apache Tomcat** â€“ App server
+- **Kubernetes** â€“ Orchestration & scaling
+- **Jenkins** â€“ CI/CD automation engine
 
 ---
 
-## í¾¯ Nexus Integration
+## âš¡ Quick Start
 
-In your `pom.xml`, set the `distributionManagement`:
+1. **Provision servers & install tools:**  
+   Use the [installation scripts](https://github.com/m-pasima/DevOps-class-installation-scripts.git) or [Terraform AWS lab](https://github.com/m-pasima/terraform-aws-devops-lab.git) to automate setup.
 
-```xml
-<distributionManagement>
-  <repository>
-    <id>nexus</id>
-    <url>http://<nexus-ip>:8081/repository/maven-releases/</url>
-  </repository>
-  <snapshotRepository>
-    <id>nexus</id>
-    <url>http://<nexus-ip>:8081/repository/maven-snapshots/</url>
-  </snapshotRepository>
-</distributionManagement>
-```
+2. **Clone this project:**  
+   ```bash
+   git clone https://github.com/m-pasima/maven-web-app-demo.git
+   cd maven-web-app-demo
+````
 
-Deploy with:
-
-```bash
-mvn deploy
-```
+3. **Follow the rest of the README** to build, analyze, containerize, and deploy your application.
 
 ---
 
-## í°³ Docker Setup
-
-### Dockerfile
-
-```Dockerfile
-FROM tomcat:9.0-jdk8-openjdk
-RUN rm -rf /usr/local/tomcat/webapps/*
-COPY target/range-rover.war /usr/local/tomcat/webapps/ROOT.war
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
-```
-
-### Build & Run Docker
-
-```bash
-docker build -t devops-academy .
-docker run -p 8080:8080 devops-academy
-```
+> **Pro Tip:**
+> If you want to **customize servers (e.g., different regions, larger instances, or specific security group rules),** edit the Terraform variables and scripts as needed. Always test in a non-production account first!
 
 ---
 
-## â˜¸ï¸ Kubernetes Setup
+## ğŸ†˜ Support
 
-### k8s-deployment.yaml
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: devops-academy-app
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: devops-academy
-  template:
-    metadata:
-      labels:
-        app: devops-academy
-    spec:
-      containers:
-      - name: webapp
-        image: your-dockerhub/devops-academy:latest
-        ports:
-        - containerPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: devops-academy-service
-spec:
-  type: LoadBalancer
-  selector:
-    app: devops-academy
-  ports:
-  - port: 80
-    targetPort: 8080
-```
-
-### Apply
-
-```bash
-kubectl apply -f k8s-deployment.yaml
-```
-
----
-
-## í´ Jenkins Pipeline
-
-### Jenkinsfile
-
-```groovy
-pipeline {
-    agent any
-
-    tools {
-        maven 'Maven 3.8.6'
-        jdk 'Java 8'
-    }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/m-pasima/maven-web-app-demo.git'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
-
-        stage('Code Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-
-        stage('Docker Build & Push') {
-            steps {
-                script {
-                    dockerImage = docker.build("your-dockerhub/devops-academy:${env.BUILD_NUMBER}")
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
-                        dockerImage.push()
-                        dockerImage.push("latest")
-                    }
-                }
-            }
-        }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                withKubeConfig([credentialsId: 'kubeconfig-id']) {
-                    sh 'kubectl apply -f k8s-deployment.yaml'
-                }
-            }
-        }
-    }
-}
-```
-
----
-
-## í³ Maven Local Repo Setup (Optional)
-
-### Global Settings
-
-Create or edit:
-
-```bash
-vi /opt/maven/conf/settings.xml
-```
-
-Add:
-
-```xml
-<localRepository>/opt/maven/repo</localRepository>
-```
-
----
-
-## í³Œ Best Practices
-
-- Use `.m2/settings.xml` for local developer secrets
-- Keep `pom.xml` environment-neutral
-- Externalize credentials using Jenkins secrets or Kubernetes Secrets
-- Use `mvn clean verify` in CI
-
----
-
-## í¹‹ Support
-
-For issues or improvements, open an issue on the GitHub repo or reach out to [Pasima](https://m-pasima.github.io/The-DevOps-Academy/).
+If you need help with the setup scripts, cloud lab, or CI/CD pipeline, [open an issue](https://github.com/m-pasima/maven-web-app-demo/issues) or reach out to [Pasima](https://m-pasima.github.io/The-DevOps-Academy/).
 
 ---
 
 ## Â© DevOps Academy
 
 ```
+
 
 
