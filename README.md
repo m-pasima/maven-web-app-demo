@@ -1,74 +1,325 @@
+# 🚀 DevOps Academy – Maven Web Application
 
-# 🚀 DevOps Academy - Maven Web Application
-
-Welcome to the ultimate hands-on DevOps pipeline demo! This project is a **Spring MVC web app** built with Maven and designed to showcase an enterprise-grade, cloud-native CI/CD pipeline.
-
----
-
-## 📦 Automated Setup
-
-### 🛠️ **Installation Scripts**
-
-- **Quick-start installation scripts** for tools like Java, Maven, Docker, SonarQube, Nexus, Jenkins, and Tomcat are available here:  
-  👉 [DevOps-class-installation-scripts](https://github.com/m-pasima/DevOps-class-installation-scripts.git)
-
-    - These scripts are designed to help you set up your DevOps tools on Linux VMs quickly and reproducibly.
-    - **Best Practice:** Always review scripts before running, and test on non-production VMs first!
+Welcome to the hands-on DevOps Academy demo! This project is a Spring MVC web app (Maven-based, packaged as a WAR) showcasing a real-world, cloud-native CI/CD pipeline for Java developers and DevOps engineers.
 
 ---
 
-### ☁️ **Automated Cloud Lab with Terraform**
+## 🏗️ What’s Included?
 
-- Want to spin up a complete DevOps lab—including **EC2 servers** and auto-install of SonarQube, Nexus, Jenkins, and Tomcat?  
-  👉 Use this Terraform project:  
-  [terraform-aws-devops-lab](https://github.com/m-pasima/terraform-aws-devops-lab.git)
+This repo demonstrates **end-to-end CI/CD** with:
 
-    - **Scenario:** Launch a ready-to-go CI/CD environment in AWS with a single `terraform apply`.
-    - **Warning:** These scripts will create AWS resources and may incur costs—destroy resources when finished (`terraform destroy`).
-
----
-
-## 🛠️ Stack Overview
-
-- **Maven** – Build & dependency management
+- **Maven** – Build management
 - **SonarQube** – Code quality & security scanning
 - **Nexus** – Artifact repository (release & snapshot)
-- **Docker** – App containerization
+- **Docker** – Containerization
 - **Apache Tomcat** – App server
-- **Kubernetes** – Orchestration & scaling
-- **Jenkins** – CI/CD automation engine
+- **Kubernetes** – Container orchestration
+- **Jenkins** – CI/CD automation
 
 ---
 
-## ⚡ Quick Start
+## ⚡️ Quick Start: Automated Lab Setup
 
-1. **Provision servers & install tools:**  
-   Use the [installation scripts](https://github.com/m-pasima/DevOps-class-installation-scripts.git) or [Terraform AWS lab](https://github.com/m-pasima/terraform-aws-devops-lab.git) to automate setup.
+### 🛠️ Install DevOps Tools Automatically
 
-2. **Clone this project:**  
-   ```bash
-   git clone https://github.com/m-pasima/maven-web-app-demo.git
-   cd maven-web-app-demo
+Don’t waste hours on manual setup—**automated scripts are ready for you!**
+
+- 👉 [DevOps-class-installation-scripts](https://github.com/m-pasima/DevOps-class-installation-scripts.git)  
+  *Bash scripts to install Java, Maven, Docker, SonarQube, Nexus, Jenkins, and Tomcat on your Linux servers.*
+
+  > **Best Practice:**  
+  > Review each script before running. Use test VMs—don’t experiment on production.
+
+### ☁️ One-Click AWS Lab with Terraform
+
+Spin up an entire CI/CD environment (servers + tools) in AWS using Terraform:
+
+- 👉 [terraform-aws-devops-lab](https://github.com/m-pasima/terraform-aws-devops-lab.git)  
+  *Automated infrastructure-as-code to create EC2 servers and install SonarQube, Nexus, Jenkins, and Tomcat.*
+
+  > **Warning:**  
+  > This will provision AWS resources—costs may apply. Always run `terraform destroy` when finished to avoid surprises!
+
+---
+
+## 📂 Project Structure
+
+```
+
+maven-web-application/
+├── src/
+│   ├── main/java/com/mt/controller/HelloController.java
+│   └── test/java/com/mt/controller/HelloControllerTest.java
+├── pom.xml
+├── Dockerfile
+├── Jenkinsfile
+└── k8s-deployment.yaml
+
 ````
 
-3. **Follow the rest of the README** to build, analyze, containerize, and deploy your application.
+---
+
+## 🔥 Prerequisites
+
+Before diving in, ensure you have:
+
+- Java 8+
+- Maven 3.8+
+- Docker
+- Jenkins (with Pipeline & Git plugins)
+- A running Kubernetes cluster (minikube, EKS, AKS, GKE, etc.)
+- SonarQube
+- Nexus Repository Manager
+
+**Tip:** Use the scripts/lab above to fast-track setup!
 
 ---
+
+## 🏗️ Maven Build
+
+```bash
+mvn clean install
+````
+
+Creates `target/range-rover.war`.
+
+> Use `mvn clean verify` for strict, CI-friendly builds.
+
+---
+
+## 🔎 SonarQube Integration
+
+Add to your `pom.xml`:
+
+```xml
+<properties>
+  <sonar.host.url>http://<sonarqube-ip>:9000</sonar.host.url>
+  <sonar.login>your-token</sonar.login>
+</properties>
+```
+
+Run analysis:
+
+```bash
+mvn sonar:sonar
+```
+
+> **Store your SonarQube token securely**—use Jenkins credentials binding for pipelines.
+
+---
+
+## 📦 Nexus Integration
+
+In `pom.xml` (for deploying builds):
+
+```xml
+<distributionManagement>
+  <repository>
+    <id>nexus</id>
+    <url>http://<nexus-ip>:8081/repository/maven-releases/</url>
+  </repository>
+  <snapshotRepository>
+    <id>nexus</id>
+    <url>http://<nexus-ip>:8081/repository/maven-snapshots/</url>
+  </snapshotRepository>
+</distributionManagement>
+```
+
+Deploy:
+
+```bash
+mvn deploy
+```
+
+> Store Nexus credentials in Maven’s `settings.xml` and Jenkins secrets—**never commit secrets to Git!**
+
+---
+
+## 🐳 Docker Setup
+
+### Dockerfile
+
+```Dockerfile
+FROM tomcat:9.0-jdk8-openjdk
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY target/range-rover.war /usr/local/tomcat/webapps/ROOT.war
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
+```
+
+Build & run locally:
+
+```bash
+docker build -t devops-academy .
+docker run -p 8080:8080 devops-academy
+```
+
+---
+
+## ☸️ Kubernetes Deployment
+
+### k8s-deployment.yaml
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-academy-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-academy
+  template:
+    metadata:
+      labels:
+        app: devops-academy
+    spec:
+      containers:
+      - name: webapp
+        image: your-dockerhub/devops-academy:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-academy-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: devops-academy
+  ports:
+  - port: 80
+    targetPort: 8080
+```
+
+Apply to cluster:
+
+```bash
+kubectl apply -f k8s-deployment.yaml
+```
 
 > **Pro Tip:**
-> If you want to **customize servers (e.g., different regions, larger instances, or specific security group rules),** edit the Terraform variables and scripts as needed. Always test in a non-production account first!
+> Always use image tags (`:v1.0.0`, `${BUILD_NUMBER}`) instead of `latest` for predictable deployments.
 
 ---
 
-## 🆘 Support
+## 🔄 Jenkins Multibranch Pipeline Example
 
-If you need help with the setup scripts, cloud lab, or CI/CD pipeline, [open an issue](https://github.com/m-pasima/maven-web-app-demo/issues) or reach out to [Pasima](https://m-pasima.github.io/The-DevOps-Academy/).
+### Jenkinsfile
+
+```groovy
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven 3.8.6'
+        jdk 'Java 8'
+    }
+
+    environment {
+        IMAGE_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Checked out branch: ${env.BRANCH_NAME}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Code Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+
+        stage('Publish Artifact') {
+            steps {
+                sh 'mvn deploy'
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    dockerImage = docker.build("your-dockerhub/devops-academy:${env.IMAGE_TAG}")
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
+                        dockerImage.push()
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            when {
+                branch 'main'
+            }
+            steps {
+                withKubeConfig([credentialsId: 'kubeconfig-id']) {
+                    sh 'kubectl apply -f k8s-deployment.yaml'
+                }
+            }
+        }
+    }
+}
+```
+
+> **Multibranch Pipelines:**
+> Jenkins will automatically create jobs for every branch with a `Jenkinsfile`—perfect for modern Git workflows.
+
+---
+
+## 🗂️ Maven Local Repository (Optional)
+
+To use a shared Maven repo (helpful in CI/CD):
+
+Edit `/opt/maven/conf/settings.xml`:
+
+```xml
+<localRepository>/opt/maven/repo</localRepository>
+```
+
+---
+
+## 🦾 Best Practices & Maintenance
+
+* **Always use Jenkins/K8s secrets for credentials.**
+
+* **Delete stale remote branches** to keep your repo healthy:
+
+  ```bash
+  git push origin --delete <branch-name>
+  ```
+
+* **Protect key branches** via branch protection rules in your Git hosting platform.
+
+* **Monitor your build nodes**—label agents for special tools (e.g., Docker, Java, Node.js).
+
+---
+
+## 🆘 Support & Contribution
+
+* Found a bug or want to improve something?
+  [Open an issue](https://github.com/m-pasima/maven-web-app-demo/issues) or connect with [Pasima](https://m-pasima.github.io/The-DevOps-Academy/).
+* For installation help, see
+  [DevOps-class-installation-scripts](https://github.com/m-pasima/DevOps-class-installation-scripts.git)
+  and
+  [terraform-aws-devops-lab](https://github.com/m-pasima/terraform-aws-devops-lab.git).
 
 ---
 
 ## © DevOps Academy
 
 ```
-
-
 
