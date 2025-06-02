@@ -1,51 +1,45 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    IMAGE_NAME = "range-rover"
-    DOCKERHUB_USER = "your-dockerhub-username"
-  }
-
-  tools {
-    maven 'Maven 3.8.8'
-    jdk 'jdk8'
-  }
-
-  stages {
-    stage('Checkout') {
-      steps {
-        git 'https://github.com/m-pasima/maven-web-app-demo.git'
-      }
+    tools {
+        maven 'maven3.9.9'
     }
 
-    stage('Build with Maven') {
-      steps {
-        sh 'mvn clean install'
-      }
-    }
-
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t $DOCKERHUB_USER/$IMAGE_NAME:latest .'
-      }
-    }
-
-    stage('Push to Docker Hub') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          sh '''
-            echo $PASSWORD | docker login -u $USERNAME --password-stdin
-            docker push $DOCKERHUB_USER/$IMAGE_NAME:latest
-          '''
+    stages {
+        stage('Clone code') {
+            steps {
+                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/m-pasima/maven-web-app-demo.git'
+            }
         }
-      }
+      
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('scan with sonarqube'){
+            steps{
+                sh 'mvn verify sonar:sonar'
+            }
+        }
+         stage('Upload Build Artifacts'){
+            steps{
+                sh 'mvn deploy'
+            }
+        }
+      
+        stage('Deploy to tomcat'){
+            steps{
+                // Optional: Deploy only from main or staging, not dev!
+                script {
+                    if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'staging') {
+                        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat-creds', path: '', url: 'http://18.134.158.50:8080')], contextPath: 'tesco', war: '**/*.war'
+                    } else {
+                        echo "Skipping deployment for dev branch"
+                    }
+                }
+            }
+        } 
+        
     }
-
-    stage('Deploy to Kubernetes') {
-      steps {
-        sh 'kubectl apply -f k8s-deployment.yaml'
-      }
-    }
-  }
 }
-# Set dockerhub-creds as a Jenkins credential with your Docker Hub username & token.
