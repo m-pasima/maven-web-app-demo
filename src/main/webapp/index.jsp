@@ -10,8 +10,9 @@
 <body>
   <div class="container">
     <h1>🚀 Welcome to DevOps Academy!</h1>
-    <p><a class="btn" href="hello">Say Hello</a></p>
+    <button id="colorBtn" class="btn" type="button">Change Theme</button>
   </div>
+  <script src="js/script.js"></script>
 </body>
 </html>
 
