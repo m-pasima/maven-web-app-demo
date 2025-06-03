@@ -1,4 +1,4 @@
-# Use Tomcat as base image
+# Use Tomcat as base image from docker official
 FROM tomcat:9.0-jdk8-openjdk
 
 # Remove default ROOT webapp
