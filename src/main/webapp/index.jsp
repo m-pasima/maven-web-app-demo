@@ -15,6 +15,7 @@
 
   <nav class="navbar">
     <h1>The DevOps Academy</h1>
+    <a href="/enquiry" style="margin-right:1rem;">Enquiry</a>
     <button id="theme-toggle">Change Theme</button>
   </nav>
   <section class="hero">

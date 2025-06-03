@@ -19,6 +19,7 @@
       <a href="#curriculum">Curriculum</a>
       <a href="#tools">Tools</a>
       <a href="#footer">Footer</a>
+      <a href="/enquiry">Enquiry</a>
     </div>
     <button id="theme-toggle">Change Theme</button>
   </nav>

@@ -100,8 +100,8 @@ a {
 }
 
 .hero {
-  /* Futuristic background image */
-  background: url('https://images.unsplash.com/photo-1527443224154-a92509cf88da?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  /* Futuristic AI-themed background image */
+  background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
   min-height: 70vh;
   display: flex;
   align-items: center;
