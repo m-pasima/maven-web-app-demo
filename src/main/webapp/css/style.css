@@ -4,6 +4,11 @@
   --accent-color: #FFA726;
   --text-color: #333;
   --background-color: #f8f9fa;
+  --primary-color-dark: #004d40;
+  --secondary-color-dark: #00796b;
+  --accent-color-dark: #ffb300;
+  --text-color-dark: #f1f1f1;
+  --background-color-dark: #121212;
   --font-main: 'Source Sans Pro', sans-serif;
   --font-heading: 'Playfair Display', serif;
   --glass-bg: rgba(255,255,255,0.8);
@@ -24,6 +29,16 @@ body {
   color: var(--text-color);
   line-height: 1.6;
   position: relative;
+}
+
+body.dark-theme {
+  --primary-color: var(--primary-color-dark);
+  --secondary-color: var(--secondary-color-dark);
+  --accent-color: var(--accent-color-dark);
+  --text-color: var(--text-color-dark);
+  --background-color: var(--background-color-dark);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 a {
   text-decoration: none;
@@ -57,12 +72,25 @@ a {
   font-size: 1rem;
   transition: color 0.3s ease;
 }
+.navbar #theme-toggle {
+  margin-left: 1rem;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.navbar #theme-toggle:hover {
+  background-color: #f6ac00;
+}
 .nav-links a:hover {
   color: #d4d4d4;
 }
 
 .hero {
-  background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
   min-height: 70vh;
   display: flex;
   align-items: center;
@@ -75,7 +103,7 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.55);
 }
 .hero-content {
   position: relative;

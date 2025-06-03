@@ -11,6 +11,7 @@
 
   <nav class="navbar">
     <h1>The DevOps Academy</h1>
+    <button id="theme-toggle">Change Theme</button>
   </nav>
   <section class="hero">
     <div class="hero-content">
