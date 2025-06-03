@@ -16,12 +16,13 @@
       <a href="#tools">Tools</a>
       <a href="#footer">Footer</a>
     </div>
+    <button id="theme-toggle">Change Theme</button>
   </nav>
 
   <section class="hero">
     <div class="hero-content">
       <h2>Unlock Your Full Potential with DevOps</h2>
-      <p id="message">${message}</p>
+      <p id="hero-message">${message}</p>
       <a class="cta-btn" href="#curriculum">View Curriculum</a>
     </div>
     <div class="timer-side-box">

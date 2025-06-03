@@ -38,10 +38,19 @@ accordionHeaders.forEach(function(header) {
       accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
       symbol.textContent = '−';
     }
+  });
+});
 
 document.addEventListener('DOMContentLoaded', function() {
+  var themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function() {
+      document.body.classList.toggle('dark-theme');
+    });
+  }
+
   var btn = document.getElementById('colorBtn');
-  var message = document.getElementById('message');
+  var message = document.getElementById('hero-message');
   if (!btn || !message) return;
   var original = message.textContent;
   var toggled = false;
