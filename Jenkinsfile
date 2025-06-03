@@ -8,38 +8,46 @@ pipeline {
     stages {
         stage('Clone code') {
             steps {
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/m-pasima/maven-web-app-demo.git'
+                git branch: 'main', url: 'https://github.com/m-pasima/maven-web-app-demo.git'
             }
         }
-      
+
         stage('Build') {
             steps {
                 sh 'mvn clean package'
             }
         }
-        stage('scan with sonarqube'){
-            steps{
+
+        stage('Scan with SonarQube') {
+            steps {
                 sh 'mvn verify sonar:sonar'
             }
         }
-         stage('Upload Build Artifacts'){
-            steps{
+
+        stage('Upload Build Artifacts') {
+            steps {
                 sh 'mvn deploy'
             }
         }
-      
-        stage('Deploy to tomcat'){
-            steps{
-                // Optional: Deploy only from main or staging, not dev!
+
+        stage('Manual Approval for Production') {
+            steps {
                 script {
-                    if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'staging') {
-                        deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat-creds', path: '', url: 'http://18.134.158.50:8080')], contextPath: 'tesco', war: '**/*.war'
-                    } else {
-                        echo "Skipping deployment for dev branch"
-                    }
+                    input message: "Approve deployment to PRODUCTION?"
                 }
             }
-        } 
-        
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                deploy adapters: [tomcat9(
+                    alternativeDeploymentContext: '',
+                    credentialsId: 'tomcat-creds',
+                    path: '',
+                    url: 'http://18.175.61.25:8080/')
+                ], contextPath: 'tesco', war: '**/*.war'
+            }
+        }
     }
 }
+

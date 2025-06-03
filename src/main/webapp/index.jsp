@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
   <nav class="navbar">
     <h1>The DevOps Academy</h1>
   </nav>
@@ -18,6 +19,12 @@
       <a class="cta-btn" href="hello">Enter Site</a>
     </div>
   </section>
+
+  <div class="container">
+    <h1>🚀 Welcome to DevOps Academy!</h1>
+    <button id="colorBtn" class="btn" type="button">Change Theme</button>
+  </div>
+
   <script src="js/script.js"></script>
 </body>
 </html>
