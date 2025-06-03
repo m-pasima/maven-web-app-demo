@@ -1,17 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>DevOps Academy Web App</title>
-  <!-- Link our custom CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🚀 Welcome to DevOps Academy!</h1>
-    <p><a class="btn" href="hello">Say Hello</a></p>
-  </div>
+  <nav class="navbar">
+    <h1>The DevOps Academy</h1>
+  </nav>
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Welcome to DevOps Academy</h2>
+      <p>Explore our curriculum and become a DevOps professional.</p>
+      <a class="cta-btn" href="hello">Enter Site</a>
+    </div>
+  </section>
+  <script src="js/script.js"></script>
 </body>
 </html>
-
