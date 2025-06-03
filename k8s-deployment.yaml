@@ -17,6 +17,13 @@ spec:
       containers:
         - name: webapp
           image: <your-dockerhub-username>/range-rover:latest
+          env:
+            - name: DB_URL
+              value: jdbc:postgresql://postgres:5432/postgres
+            - name: DB_USERNAME
+              value: postgres
+            - name: DB_PASSWORD
+              value: example
           ports:
             - containerPort: 8080
 ---

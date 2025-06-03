@@ -66,6 +66,24 @@
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <!-- Spring JDBC for database access -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <!-- PostgreSQL driver -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.2</version>
+    </dependency>
+    <!-- JSTL for JSP pages -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
 
     <!-- Servlet API (provided) -->
     <dependency>

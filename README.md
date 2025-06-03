@@ -205,6 +205,20 @@ kubectl apply -f k8s-deployment.yaml
 
 ---
 
+## 🐘 PostgreSQL Setup
+
+The application stores enquiries in PostgreSQL. Configure connection details using environment variables before starting Tomcat:
+
+```bash
+export DB_URL="jdbc:postgresql://<db-host>:5432/<db>"
+export DB_USERNAME="postgres"
+export DB_PASSWORD="your-password"
+```
+
+Pass these variables to `docker run` or your Kubernetes deployment so the webapp can connect to your database.
+
+---
+
 ## 🔄 Jenkins Multibranch Pipeline Example
 
 ### Jenkinsfile
