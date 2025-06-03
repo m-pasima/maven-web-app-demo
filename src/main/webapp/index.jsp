@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <div class="top-bar">
+    Email: <a href="mailto:devopsacademy@gmx.com">devopsacademy@gmx.com</a> |
+    Tel: 07533020152
+  </div>
 
   <nav class="navbar">
     <h1>The DevOps Academy</h1>
@@ -22,9 +26,14 @@
   </section>
 
   <div class="container">
-    <h1>🚀 Welcome to DevOps Academy!</h1>
     <button id="colorBtn" class="btn" type="button">Change Theme</button>
   </div>
+
+  <footer class="footer">
+    <p>Email: <a href="mailto:devopsacademy@gmx.com">devopsacademy@gmx.com</a>
+      | Tel: 07533020152</p>
+    <p>&copy; 2024 The DevOps Academy</p>
+  </footer>
 
   <script src="js/script.js"></script>
 </body>
