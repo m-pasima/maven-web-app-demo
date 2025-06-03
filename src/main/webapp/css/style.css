@@ -1,12 +1,13 @@
 :root {
-  --primary-color: #00695C;
-  --secondary-color: #26A69A;
-  --accent-color: #FFA726;
+  /* Primary palette uses shades of blue and purple */
+  --primary-color: #3498db; /* blue */
+  --secondary-color: #8e44ad; /* purple */
+  --accent-color: #9b59b6;
   --text-color: #333;
   --background-color: #f8f9fa;
-  --primary-color-dark: #004d40;
-  --secondary-color-dark: #00796b;
-  --accent-color-dark: #ffb300;
+  --primary-color-dark: #1e5f93;
+  --secondary-color-dark: #5e3373;
+  --accent-color-dark: #8e44ad;
   --text-color-dark: #f1f1f1;
   --background-color-dark: #121212;
   --font-main: 'Source Sans Pro', sans-serif;
@@ -43,6 +44,15 @@ body.dark-theme {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+/* Simple top header bar for contact info */
+.top-bar {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0.3rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .navbar {
@@ -90,7 +100,8 @@ a {
 }
 
 .hero {
-  background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  /* Futuristic background image */
+  background: url('https://images.unsplash.com/photo-1527443224154-a92509cf88da?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
   min-height: 70vh;
   display: flex;
   align-items: center;
@@ -243,7 +254,8 @@ a {
 }
 
 body.alt-theme {
-  background: linear-gradient(to right, #ff512f, #dd2476);
+  /* Alternate theme with vibrant blue to purple gradient */
+  background: linear-gradient(to right, #2980b9, #8e44ad);
 }
 
 .container {

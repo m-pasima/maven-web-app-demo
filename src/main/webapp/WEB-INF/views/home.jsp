@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <div class="top-bar">
+    Email: <a href="mailto:devopsacademy@gmx.com">devopsacademy@gmx.com</a> |
+    Tel: 07533020152
+  </div>
   <nav class="navbar">
     <h1>The DevOps Academy</h1>
     <div class="nav-links">
@@ -47,7 +51,7 @@
 
   <div class="container" id="curriculum">
     <div class="contact" id="contact-info">
-      <p><strong>Email:</strong> info.devopsacademy@gmx.co.uk</p>
+      <p><strong>Email:</strong> devopsacademy@gmx.com</p>
       <p><strong>Location:</strong> Birmingham, UK</p>
       <p><strong>Tel:</strong> 07533020152</p>
     </div>
@@ -132,21 +136,9 @@
   </div>
 
   <footer class="footer" id="footer">
-    <p>© 2024 The DevOps Academy. All rights reserved.</p>
-    <p>Empowering the next generation of DevOps professionals.</p>
+    <p>Email: <a href="mailto:devopsacademy@gmx.com">devopsacademy@gmx.com</a>
+      | Tel: 07533020152</p>
+    <p>&copy; 2024 The DevOps Academy. All rights reserved.</p>
   </footer>
 
   <script src="js/script.js"></script>
-=======
-    <title>DevOps Academy</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h1 id="message" data-original="${message}">${message}</h1>
-        <p>Welcome to your first Maven-Spring MVC app!</p>
-        <button id="colorBtn" class="btn" type="button">Change Theme</button>
-    </div>
-    <script src="js/script.js"></script>
-</body>
-</html>
