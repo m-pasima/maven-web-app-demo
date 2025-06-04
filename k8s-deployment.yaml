@@ -14,9 +14,9 @@ spec:
       labels:
         app: devops-academy
     spec:
-      containers:
-        - name: webapp
-          image: <your-dockerhub-username>/range-rover:latest
+        containers:
+          - name: webapp
+            image: <your-dockerhub-username>/tesco:latest
           env:
             - name: DB_URL
               value: jdbc:postgresql://postgres:5432/postgres

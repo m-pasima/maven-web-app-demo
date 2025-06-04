@@ -81,7 +81,7 @@ Before diving in, ensure you have:
 mvn clean install
 ````
 
-Creates `target/range-rover.war`.
+Creates `target/tesco.war`.
 
 > Use `mvn clean verify` for strict, CI-friendly builds.
 
@@ -140,9 +140,9 @@ mvn deploy
 ### Dockerfile
 
 ```Dockerfile
-FROM tomcat:9.0-jdk8-openjdk
+FROM tomcat:10.1-jdk17-temurin
 RUN rm -rf /usr/local/tomcat/webapps/*
-COPY target/range-rover.war /usr/local/tomcat/webapps/ROOT.war
+COPY target/tesco.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 ```
