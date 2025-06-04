@@ -1,5 +1,5 @@
-# Use Tomcat as base image from docker official
-FROM tomcat:9.0-jdk17-temurin
+# Use Tomcat 11 as base image
+FROM tomcat:11-jdk17-temurin
 
 # Remove default ROOT webapp
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
