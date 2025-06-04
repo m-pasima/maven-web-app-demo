@@ -1,6 +1,9 @@
 # 🚀 DevOps Academy – Maven Web Application
 
+
 Welcome to the hands-on DevOps Academy demo! This project is a Spring MVC web app (Maven-based, packaged as a WAR) showcasing a real-world, cloud-native CI/CD pipeline for Java developers and DevOps engineers.
+
+**Note:** The application now targets **Jakarta EE 10 (Servlet&nbsp;6)** and is tested on **Apache Tomcat&nbsp;11**.
 
 ---
 
@@ -140,7 +143,8 @@ mvn deploy
 ### Dockerfile
 
 ```Dockerfile
-FROM tomcat:9.0-jdk17-temurin
+# Example Dockerfile using Tomcat 11
+FROM tomcat:11-jdk17-temurin
 RUN rm -rf /usr/local/tomcat/webapps/*
 COPY target/tesco.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
