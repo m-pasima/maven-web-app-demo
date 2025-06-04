@@ -1,5 +1,5 @@
-
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,7 +15,7 @@
 
   <nav class="navbar">
     <h1>The DevOps Academy</h1>
-    <a href="/enquiry" style="margin-right:1rem;">Enquiry</a>
+    <a href="<c:url value='/enquiry'/>" style="margin-right:1rem;">Enquiry</a>
     <button id="theme-toggle">Change Theme</button>
   </nav>
   <section class="hero">

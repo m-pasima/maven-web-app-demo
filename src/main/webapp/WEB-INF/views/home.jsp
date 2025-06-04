@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -19,7 +20,7 @@
       <a href="#curriculum">Curriculum</a>
       <a href="#tools">Tools</a>
       <a href="#footer">Footer</a>
-      <a href="/enquiry">Enquiry</a>
+      <a href="<c:url value='/enquiry'/>">Enquiry</a>
     </div>
     <button id="theme-toggle">Change Theme</button>
   </nav>
