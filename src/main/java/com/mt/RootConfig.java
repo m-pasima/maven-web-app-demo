@@ -1,12 +1,14 @@
 package com.mt;
 
-import org.springframework.context.annotation.ComponentScan;
+import com.mt.repository.EnquiryRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import com.mt.config.DatabaseConfig;
 
 @Configuration
-@ComponentScan({"com.mt.repository"})
-@Import(DatabaseConfig.class)
 public class RootConfig {
+
+    @Bean
+    public EnquiryRepository enquiryRepository() {
+        return new EnquiryRepository();
+    }
 }
