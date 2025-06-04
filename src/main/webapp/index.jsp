@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>DevOps Academy Web App</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="<c:url value='/css/style.css'/>">
 </head>
 <body>
   <div class="top-bar">
@@ -36,6 +37,6 @@
     <p>&copy; 2024 The DevOps Academy</p>
   </footer>
 
-  <script src="js/script.js"></script>
+  <script src="<c:url value='/js/script.js'/>"></script>
 </body>
 </html>
