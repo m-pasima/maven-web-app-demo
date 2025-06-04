@@ -20,8 +20,9 @@
 
   <properties>
     <!-- Java & Framework Versions -->
-    <jdk.version>1.8</jdk.version>
-    <spring.version>5.1.2.RELEASE</spring.version>
+    <jdk.version>17</jdk.version>
+    <!-- Spring Framework version compatible with Jakarta EE -->
+    <spring.version>6.1.2</spring.version>
     <junit.version>4.13.2</junit.version>
     <log4j.version>1.2.17</log4j.version>
 
@@ -80,16 +81,16 @@
     </dependency>
     <!-- JSTL for JSP pages -->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
+      <groupId>jakarta.servlet.jsp.jstl</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <version>3.0.0</version>
     </dependency>
 
     <!-- Servlet API (provided) -->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>3.1.0</version>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
 
