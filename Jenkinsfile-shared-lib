@@ -1,6 +1,5 @@
 @Library('maven-app-lib') _
 
-mavenAppPipeline(
+mainBranchMavenPipeline(
     repo: 'https://github.com/m-pasima/maven-web-app-demo.git'
-    
 )
