@@ -27,7 +27,7 @@
     <log4j.version>1.2.17</log4j.version>
 
     <!-- SonarQube Integration (teaching only!) -->
-    <sonar.host.url>http://35.178.71.76:9000/</sonar.host.url>
+    <sonar.host.url>http://18.133.246.81:9000/</sonar.host.url>
     <sonar.login>admin</sonar.login>
     <sonar.password>admin1</sonar.password>
     <sonar.projectKey>com.mt:maven-web-application</sonar.projectKey>
@@ -114,7 +114,7 @@
     <repository>
       <id>nexus</id>
       <name>DevOps Academy Release Nexus Repo</name>
-      <url>http://13.43.92.86:8081/repository/tesco-releases/</url>
+      <url>http://35.178.177.123:8081/repository/tesco-releases/</url>
     </repository>
 
     <!-- Snapshot repository (for versions ending in -SNAPSHOT) -->
