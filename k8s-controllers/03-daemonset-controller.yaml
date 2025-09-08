@@ -1,0 +1,30 @@
+# DaemonSet Controller - Ensures one pod per node
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name:  webapp-log-collector 
+  labels:
+    app:  webapp-log-collector
+    controller: daemonset
+spec:
+  selector:
+    matchLabels:
+      app:  webapp-log-collector
+  template:
+    metadata:
+      labels:
+        app:  webapp-log-collector
+    spec:
+      containers:
+      - name: log-collector
+        image: busybox:latest
+        command: ["sh", "-c"]
+        args: ["while true; do echo 'Collecting logs from node'; sleep 30; done"]
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+          readOnly: true
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log

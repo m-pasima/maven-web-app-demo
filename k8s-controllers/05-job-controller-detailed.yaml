@@ -1,0 +1,142 @@
+# Job Controller - Runs pods to completion
+# 
+# WHAT THIS SCRIPT DOES:
+# 1. Creates a Kubernetes Job that runs a database migration
+# 2. Waits for PostgreSQL database to be ready before starting
+# 3. Creates necessary tables for the Maven web application
+# 4. Inserts initial seed data
+# 5. Ensures the job completes successfully or retries on failure
+#
+# PREREQUISITES:
+# - PostgreSQL StatefulSet must be running (04-statefulset-controller.yaml)
+# - postgres-headless service must exist
+# - Database 'mydb' must be accessible
+#
+# EXECUTION ORDER:
+# 1. Deploy PostgreSQL: kubectl apply -f 04-statefulset-controller.yaml
+# 2. Wait for DB ready: kubectl wait --for=condition=ready pod -l app=postgres
+# 3. Run this job: kubectl apply -f 05-job-controller.yaml
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: webapp-db-migration
+  labels:
+    app: db-migration
+    controller: job
+spec:
+  # Job Configuration:
+  completions: 1        # Job succeeds when 1 pod completes successfully
+  parallelism: 1        # Run only 1 pod at a time (no parallel execution)
+  backoffLimit: 3       # Retry up to 3 times if pods fail
+  activeDeadlineSeconds: 300  # Kill job if it runs longer than 5 minutes
+  
+  template:
+    metadata:
+      labels:
+        app: db-migration  # Label for pod selection and monitoring
+    spec:
+      restartPolicy: Never  # Don't restart failed containers (let Job controller handle retries)
+      
+      containers:
+      - name: migration
+        image: postgres:13    # Use PostgreSQL client tools
+        
+        # Command Breakdown:
+        # /bin/bash -c "script" - Execute bash script with multiple commands
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - |
+          # STEP 1: Database Readiness Check
+          # pg_isready checks if PostgreSQL server is accepting connections
+          echo "🔍 Checking database connectivity..."
+          echo "Target: $DB_HOST:5432"
+          echo "Database: $DB_NAME"
+          echo "User: $DB_USER"
+          
+          # Loop until database is ready (prevents connection failures)
+          until pg_isready -h $DB_HOST -p 5432; do
+            echo "⏳ Database not ready, waiting 2 seconds..."
+            sleep 2
+          done
+          echo "✅ Database is ready!"
+          
+          # STEP 2: Database Migration
+          echo "🚀 Starting database migration..."
+          
+          # psql command explanation:
+          # -h $DB_HOST: Connect to specified host
+          # -U $DB_USER: Connect as specified user  
+          # -d $DB_NAME: Connect to specified database
+          # <<EOF...EOF: Here document (multi-line SQL input)
+          
+          psql -h $DB_HOST -U $DB_USER -d $DB_NAME <<EOF
+          
+          -- Create users table for application authentication
+          CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,                    -- Auto-incrementing ID
+            username VARCHAR(50) UNIQUE NOT NULL,     -- Unique username
+            email VARCHAR(100) UNIQUE NOT NULL,       -- Unique email
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Creation timestamp
+          );
+          
+          -- Create enquiries table for contact form submissions
+          CREATE TABLE IF NOT EXISTS enquiries (
+            id SERIAL PRIMARY KEY,                    -- Auto-incrementing ID
+            name VARCHAR(100) NOT NULL,               -- Contact name
+            email VARCHAR(100) NOT NULL,              -- Contact email
+            message TEXT NOT NULL,                    -- Enquiry message
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Submission timestamp
+          );
+          
+          -- Insert initial seed data (admin users)
+          -- ON CONFLICT DO NOTHING prevents errors if data already exists
+          INSERT INTO users (username, email) VALUES 
+          ('admin', 'admin@example.com'),
+          ('demo', 'demo@example.com')
+          ON CONFLICT (username) DO NOTHING;
+          
+          -- Verify migration completed
+          \echo '✅ Database migration completed successfully!'
+          \echo 'Tables created: users, enquiries'
+          \echo 'Seed data inserted: admin and demo users'
+          
+          EOF
+          
+          # STEP 3: Verification
+          echo "🔍 Verifying migration results..."
+          
+          # Check if tables were created successfully
+          psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "\dt" || {
+            echo "❌ Failed to verify tables"
+            exit 1
+          }
+          
+          # Count inserted records
+          USER_COUNT=$(psql -h $DB_HOST -U $DB_USER -d $DB_NAME -t -c "SELECT COUNT(*) FROM users;")
+          echo "📊 Users table contains: $USER_COUNT records"
+          
+          echo "🎉 Migration job completed successfully!"
+          
+        # Environment Variables:
+        # These are injected into the container and used by PostgreSQL client
+        env:
+        - name: DB_HOST
+          value: postgres-headless    # Kubernetes service name for PostgreSQL
+        - name: DB_USER  
+          value: postgres            # PostgreSQL username
+        - name: DB_NAME
+          value: mydb               # Target database name
+        - name: PGPASSWORD
+          value: password           # PostgreSQL password (auto-used by psql)
+        
+        # Resource Limits:
+        # Prevent migration job from consuming too many resources
+        resources:
+          requests:
+            memory: "128Mi"         # Minimum memory required
+            cpu: "100m"            # Minimum CPU required (0.1 CPU core)
+          limits:
+            memory: "256Mi"         # Maximum memory allowed
+            cpu: "200m"            # Maximum CPU allowed (0.2 CPU core)

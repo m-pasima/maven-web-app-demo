@@ -1,0 +1,42 @@
+# Deployment Controller - Manages ReplicaSets and Pods
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maven-webapp-deployment
+  labels:
+    app: maven-webapp
+    controller: deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: maven-webapp
+  template:
+    metadata:
+      labels:
+        app: maven-webapp
+    spec:
+      containers:
+      - name: webapp
+        image: ivykiera/maven-web-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: jdbc:postgresql://postgres:5432/postgres
+        - name: DB_USERNAME
+          value: postgres
+        - name: DB_PASSWORD
+          value: example
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

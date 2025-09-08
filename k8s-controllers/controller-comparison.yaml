@@ -1,0 +1,92 @@
+# Controller Comparison - All controllers for the same webapp
+---
+# 1. Deployment - Best for stateless apps
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maven-webapp-deployment-example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: maven-webapp
+      type: deployment
+  template:
+    metadata:
+      labels:
+        app: maven-webapp
+        type: deployment
+    spec:
+      containers:
+      - name: webapp
+        image: ivykiera/maven-web-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: jdbc:postgresql://postgres:5432/postgres
+        - name: DB_USERNAME
+          value: postgres
+        - name: DB_PASSWORD
+          value: example
+
+---
+# 2. ReplicaSet - Lower level, usually managed by Deployment
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: maven-webapp-replicaset-example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: maven-webapp
+      type: replicaset
+  template:
+    metadata:
+      labels:
+        app: maven-webapp
+        type: replicaset
+    spec:
+      containers:
+      - name: webapp
+        image: ivykiera/maven-web-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: jdbc:postgresql://postgres:5432/postgres
+        - name: DB_USERNAME
+          value: postgres
+        - name: DB_PASSWORD
+          value: example
+
+---
+# 3. DaemonSet - One pod per node
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: maven-webapp-daemonset-example
+spec:
+  selector:
+    matchLabels:
+      app: maven-webapp
+      type: daemonset
+  template:
+    metadata:
+      labels:
+        app: maven-webapp
+        type: daemonset
+    spec:
+      containers:
+      - name: webapp
+        image: ivykiera/maven-web-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: jdbc:postgresql://postgres:5432/postgres
+        - name: DB_USERNAME
+          value: postgres
+        - name: DB_PASSWORD
+          value: example

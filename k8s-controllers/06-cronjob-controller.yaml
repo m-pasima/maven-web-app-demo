@@ -1,0 +1,33 @@
+# CronJob Controller - Runs jobs on schedule
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-cronjob
+  labels:
+    app: backup
+    controller: cronjob
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backup
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup
+            image: postgres:13
+            command: ["pg_dump"]
+            args: ["-h", "postgres", "-U", "postgres", "-d", "mydb", "-f", "/backup/backup.sql"]
+            env:
+            - name: PGPASSWORD
+              value: password
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backup
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc

@@ -16,7 +16,7 @@ spec:
     spec:
         containers:
           - name: webapp
-            image: <your-dockerhub-username>/tesco:latest
+            image: ivykiera/maven-web-app:latest
           env:
             - name: DB_URL
               value: jdbc:postgresql://postgres:5432/postgres

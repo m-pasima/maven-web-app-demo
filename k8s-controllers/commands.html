@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrected Kubernetes Commands</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        .commands { background: #2d3748; color: #e2e8f0; padding: 20px; border-radius: 8px; margin: 15px 0; font-family: monospace; overflow-x: auto; }
+        .section { margin: 30px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+        .header { background: #4CAF50; color: white; padding: 15px; font-weight: bold; }
+        .content { padding: 20px; }
+        h1 { color: #333; text-align: center; }
+        .error { background: #ffebee; border-left: 4px solid #f44336; padding: 10px; margin: 10px 0; }
+        .correct { background: #e8f5e8; border-left: 4px solid #4caf50; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧  Kubernetes Commands</h1>
+
+        <div class="section">
+            <div class="header">📦 Deployment Controller Commands</div>
+            <div class="content">
+
+                <div class="correct">✅ Correct (from YAML): webapp-deployment</div>
+                <div class="commands">
+<pre># Create deployment
+kubectl apply -f 01-deployment-controller.yaml
+
+# Get deployment status
+kubectl get deployments
+kubectl get deployment webapp-deployment -o wide
+
+# Describe deployment
+kubectl describe deployment webapp-deployment
+
+# Scale deployment
+kubectl scale deployment webapp-deployment --replicas=5
+
+# Rolling update
+kubectl set image deployment/webapp-deployment webapp=ivykiera/maven-web-app:v2
+
+# Check rollout status
+kubectl rollout status deployment/webapp-deployment
+
+# View rollout history
+kubectl rollout history deployment/webapp-deployment
+
+# Rollback to previous version
+kubectl rollout undo deployment/webapp-deployment
+
+# Get pods
+kubectl get pods -l app=webapp</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="header">🔄 ReplicaSet Controller Commands</div>
+            <div class="content">
+
+                <div class="correct">✅ Correct: webapp-replicaset</div>
+                <div class="commands">
+<pre># Create ReplicaSet
+kubectl apply -f 02-replicaset-controller.yaml
+
+# Get ReplicaSet status
+kubectl get replicasets
+kubectl get rs webapp-replicaset -o wide
+
+# Describe ReplicaSet
+kubectl describe replicaset webapp-replicaset
+
+# Scale ReplicaSet
+kubectl scale replicaset webapp-replicaset --replicas=5
+
+# Get pods managed by ReplicaSet
+kubectl get pods -l app=webapp,version=v1</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="header">🌐 DaemonSet Controller Commands</div>
+            <div class="content">
+                <div class="correct">✅ Name: log-collector</div>
+                <div class="commands">
+<pre># Create DaemonSet
+kubectl apply -f 03-daemonset-controller.yaml
+
+# Get DaemonSet status
+kubectl get daemonsets
+kubectl get ds log-collector -o wide
+
+# Describe DaemonSet
+kubectl describe daemonset log-collector
+
+# Get pods created by DaemonSet
+kubectl get pods -l app=log-collector -o wide
+
+# Update DaemonSet
+kubectl set image daemonset/log-collector fluentd=fluentd:v1.15</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="header">🗄️ StatefulSet Controller Commands</div>
+            <div class="content">
+                <div class="correct">✅ Name: postgres-statefulset</div>
+                <div class="commands">
+<pre># Create StatefulSet
+kubectl apply -f 04-statefulset-controller.yaml
+
+# Get StatefulSet status
+kubectl get statefulsets
+kubectl get sts postgres-statefulset -o wide
+
+# Describe StatefulSet
+kubectl describe statefulset postgres-statefulset
+
+# Get pods (ordered names)
+kubectl get pods -l app=postgres
+
+# Scale StatefulSet
+kubectl scale statefulset postgres-statefulset --replicas=5
+
+# Connect to specific pod
+kubectl exec -it postgres-statefulset-0 -- psql -U postgres -d mydb</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="header">⚡ Job Controller Commands</div>
+            <div class="content">
+                <div class="correct">✅ Name: data-migration-job</div>
+                <div class="commands">
+<pre># Create Job
+kubectl apply -f 05-job-controller.yaml
+
+# Get Job status
+kubectl get jobs
+kubectl get job data-migration-job -o wide
+
+# Describe Job
+kubectl describe job data-migration-job
+
+# Get pods created by Job
+kubectl get pods -l app=data-migration
+
+# View Job logs
+kubectl logs -l app=data-migration
+
+# Delete completed Job
+kubectl delete job data-migration-job</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="header">⏰ CronJob Controller Commands</div>
+            <div class="content">
+                <div class="correct">✅ Name: backup-cronjob</div>
+                <div class="commands">
+<pre># Create CronJob
+kubectl apply -f 06-cronjob-controller.yaml
+
+# Get CronJob status
+kubectl get cronjobs
+kubectl get cj backup-cronjob -o wide
+
+# Describe CronJob
+kubectl describe cronjob backup-cronjob
+
+# Get jobs created by CronJob
+kubectl get jobs -l app=backup
+
+# Manually trigger CronJob
+kubectl create job manual-backup --from=cronjob/backup-cronjob
+
+# Suspend CronJob
+kubectl patch cronjob backup-cronjob -p '{"spec":{"suspend":true}}'</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="header">📈 HPA Controller Commands</div>
+            <div class="content">
+
+                <div class="correct">✅  webapp-hpa (targets webapp-deployment)</div>
+                <div class="commands">
+<pre># Create HPA
+kubectl apply -f 07-hpa-controller.yaml
+
+# Get HPA status
+kubectl get hpa
+kubectl get hpa webapp-hpa -o wide
+
+# Describe HPA
+kubectl describe hpa webapp-hpa
+
+# Create HPA from command line
+kubectl autoscale deployment webapp-deployment --cpu-percent=70 --min=2 --max=10
+
+# Watch HPA in action
+kubectl get hpa -w
+
+# Monitor scaling
+kubectl get pods -l app=webapp -w</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="header">🔍 All Controllers Summary</div>
+            <div class="content">
+                <div class="commands">
+<pre># Apply all controllers
+kubectl apply -f k8s-controllers/
+
+# Get all resources
+kubectl get deployments,replicasets,daemonsets,statefulsets,jobs,cronjobs,hpa
+
+# Monitor all pods
+kubectl get pods -l app=webapp
+kubectl get pods -l app=postgres
+kubectl get pods -l app=log-collector
+kubectl get pods -l app=data-migration
+kubectl get pods -l app=backup
+
+# Cleanup all
+kubectl delete -f k8s-controllers/
+kubectl delete pvc --all</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

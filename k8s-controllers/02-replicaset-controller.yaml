@@ -1,0 +1,32 @@
+# ReplicaSet Controller - Maintains desired number of pod replicas
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: maven-webapp-replicaset
+  labels:
+    app: maven-webapp
+    controller: replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: standalone-webapp
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: standalone-webapp
+        version: v1
+    spec:
+      containers:
+      - name: webapp
+        image: ivykiera/maven-web-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: jdbc:postgresql://postgres:5432/postgres
+        - name: DB_USERNAME
+          value: postgres
+        - name: DB_PASSWORD
+          value: password

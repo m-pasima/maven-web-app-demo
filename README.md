@@ -45,36 +45,94 @@ Spin up an entire CI/CD environment (servers + tools) in AWS using Terraform:
 
 ---
 
+## 🎯 Kubernetes Controllers Teaching Lab
+
+This project includes a comprehensive **Kubernetes Controllers Teaching Lab** in the `k8s-controllers/` directory:
+
+### 📁 Controller Examples (7 Types)
+- **Deployment** - Stateless app management with rolling updates
+- **ReplicaSet** - Pod replica management (usually via Deployment)
+- **DaemonSet** - Node-level services (logging, monitoring)
+- **StatefulSet** - Stateful apps with persistent storage (PostgreSQL)
+- **Job** - One-time tasks (database migration, data processing)
+- **CronJob** - Scheduled tasks (backups, maintenance)
+- **HPA** - Auto-scaling based on CPU/memory metrics
+
+### 📚 Interactive Learning Materials
+- **`kubernetes-controllers-guide.html`** - Complete visual guide with examples
+- **`service-examples.yaml`** - LoadBalancer and NodePort services
+- **`README.md`** - Quick reference and demo commands
+
+### 🚀 Quick Demo
+```bash
+# Deploy all controllers
+kubectl apply -f k8s-controllers/
+
+# Watch controllers in action
+kubectl get all -w
+
+# Test auto-scaling
+kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh
+# Inside pod: while true; do wget -q -O- http://maven-webapp-service; done
+
+# Cleanup
+kubectl delete -f k8s-controllers/
+```
+
+---
+
 ## 📂 Project Structure
 
 ```
-
-maven-web-application/
+maven-web-app-demo-1/
 ├── src/
-│   ├── main/java/com/mt/controller/HelloController.java
+│   ├── main/
+│   │   ├── java/com/mt/controller/HelloController.java
+│   │   └── webapp/
+│   │       ├── WEB-INF/web.xml
+│   │       └── index.jsp
 │   └── test/java/com/mt/controller/HelloControllerTest.java
+├── k8s-controllers/
+│   ├── 01-deployment-controller.yaml
+│   ├── 02-replicaset-controller.yaml
+│   ├── 03-daemonset-controller.yaml
+│   ├── 04-statefulset-controller.yaml
+│   ├── 05-job-controller.yaml
+│   ├── 06-cronjob-controller.yaml
+│   ├── 07-hpa-controller.yaml
+│   ├── service-examples.yaml
+│   ├── kubernetes-controllers-guide.html
+│   └── README.md
 ├── pom.xml
 ├── Dockerfile
 ├── Jenkinsfile
-└── k8s-deployment.yaml
-
-````
+├── k8s-deployment.yaml
+└── README.md
+```
 
 ---
 
 ## 🔥 Prerequisites
 
-Before diving in, ensure you have:
+### Core Development Tools
+- **Java 8+** - Application runtime
+- **Maven 3.8+** - Build management
+- **Docker** - Containerization
 
-- Java 8+
-- Maven 3.8+
-- Docker
-- Jenkins (with Pipeline & Git plugins)
-- A running Kubernetes cluster (minikube, EKS, AKS, GKE, etc.)
-- SonarQube
-- Nexus Repository Manager
+### CI/CD Pipeline Tools
+- **Jenkins** (with Pipeline & Git plugins) - Automation
+- **SonarQube** - Code quality & security
+- **Nexus Repository Manager** - Artifact storage
 
-**Tip:** Use the scripts/lab above to fast-track setup!
+### Container Orchestration
+- **Kubernetes cluster** (minikube, EKS, AKS, GKE, etc.)
+- **kubectl** - Kubernetes CLI
+- **Metrics Server** - For HPA auto-scaling
+
+### Database (for StatefulSet demos)
+- **PostgreSQL** - Persistent data storage
+
+**Tip:** Use the automated scripts/lab above to fast-track setup!
 
 ---
 
@@ -206,6 +264,112 @@ kubectl apply -f k8s-deployment.yaml
 
 > **Pro Tip:**
 > Always use image tags (`:v1.0.0`, `${BUILD_NUMBER}`) instead of `latest` for predictable deployments.
+
+---
+
+## 📖 Complete File Reference
+
+### 🛠️ Build & Configuration Files
+
+#### `pom.xml`
+- **Purpose**: Maven build configuration
+- **Key Features**: Jakarta EE 10, Servlet 6, PostgreSQL driver
+- **Build Command**: `mvn clean install`
+- **Output**: `target/tesco.war`
+
+#### `Dockerfile`
+- **Purpose**: Container image definition
+- **Base Image**: `tomcat:11-jdk17-temurin`
+- **Deployment**: Copies WAR to `/usr/local/tomcat/webapps/ROOT.war`
+- **Port**: Exposes 8080
+
+#### `Jenkinsfile`
+- **Purpose**: CI/CD pipeline automation
+- **Stages**: Build → Test → SonarQube → Nexus → Docker → K8s Deploy
+- **Features**: Multibranch support, automated deployments
+
+### 🔍 Application Source Code
+
+#### `src/main/java/com/mt/controller/HelloController.java`
+- **Purpose**: Spring MVC controller
+- **Endpoints**: `/`, `/enquiry` (form handling)
+- **Database**: PostgreSQL integration for enquiry storage
+
+#### `src/main/webapp/index.jsp`
+- **Purpose**: Main web interface
+- **Features**: Contact form, responsive design
+- **Integration**: Connects to HelloController
+
+#### `src/test/java/com/mt/controller/HelloControllerTest.java`
+- **Purpose**: Unit tests for controller
+- **Framework**: JUnit testing
+- **Coverage**: Controller endpoints and database operations
+
+### ☁️ Kubernetes Deployment Files
+
+#### `k8s-deployment.yaml`
+- **Purpose**: Basic Kubernetes deployment
+- **Type**: Simple Deployment + Service
+- **Use Case**: Quick single-controller deployment
+
+#### `k8s-controllers/` Directory
+Comprehensive Kubernetes controller examples for teaching:
+
+**Controller YAML Files:**
+- `01-deployment-controller.yaml` - Stateless app with rolling updates
+- `02-replicaset-controller.yaml` - Direct ReplicaSet management
+- `03-daemonset-controller.yaml` - Node-level log collection
+- `04-statefulset-controller.yaml` - PostgreSQL database with persistence
+- `05-job-controller.yaml` - Database migration and seeding
+- `06-cronjob-controller.yaml` - Scheduled backup operations
+- `07-hpa-controller.yaml` - Auto-scaling configuration
+- `service-examples.yaml` - LoadBalancer and NodePort services
+
+**Documentation Files:**
+- `kubernetes-controllers-guide.html` - Interactive visual guide
+- `README.md` - Quick reference and demo commands
+
+### 📊 Deployment Architecture
+
+```
+Maven Build → Docker Image → Kubernetes Controllers
+     │              │                    │
+  tesco.war    →  Container     →    Pod Replicas
+     │              │                    │
+ CI/CD Pipeline →  Registry     →    Load Balancer
+```
+
+### 🚀 Testing & Validation Commands
+
+```bash
+# Build and test locally
+mvn clean test
+mvn clean install
+
+# Docker testing
+docker build -t maven-webapp .
+docker run -p 8080:8080 maven-webapp
+
+# Basic Kubernetes deployment
+kubectl apply -f k8s-deployment.yaml
+kubectl get pods,services
+
+# Full controller demo
+kubectl apply -f k8s-controllers/
+kubectl get all -w
+
+# Load testing (for HPA)
+kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh
+# Inside pod: while true; do wget -q -O- http://maven-webapp-service; done
+
+# Access application
+kubectl port-forward service/maven-webapp-service 8080:8080
+# Visit: http://localhost:8080
+
+# Cleanup
+kubectl delete -f k8s-controllers/
+kubectl delete -f k8s-deployment.yaml
+```
 
 ---
 

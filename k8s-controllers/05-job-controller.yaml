@@ -1,0 +1,64 @@
+# Job Controller - Runs pods to completion
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: webapp-db-migration
+  labels:
+    app: db-migration
+    controller: job
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: db-migration
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: migration
+        image: postgres:13
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - |
+          echo "Waiting for database to be ready..."
+          until pg_isready -h $DB_HOST -p 5432; do
+            echo "Database not ready, waiting..."
+            sleep 2
+          done
+          echo "Database is ready, starting migration..."
+          
+          psql -h $DB_HOST -U $DB_USER -d $DB_NAME <<EOF
+          CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(50) UNIQUE NOT NULL,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          
+          CREATE TABLE IF NOT EXISTS enquiries (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            email VARCHAR(100) NOT NULL,
+            message TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          
+          INSERT INTO users (username, email) VALUES 
+          ('admin', 'admin@example.com'),
+          ('demo', 'demo@example.com')
+          ON CONFLICT (username) DO NOTHING;
+          
+          \echo 'Database migration completed successfully!'
+          EOF
+        env:
+        - name: DB_HOST
+          value: postgres-headless
+        - name: DB_USER
+          value: postgres
+        - name: DB_NAME
+          value: mydb
+        - name: PGPASSWORD
+          value: password
