@@ -14,9 +14,9 @@ spec:
       labels:
         app: devops-academy
     spec:
-        containers:
-          - name: webapp
-            image: ivykiera/maven-web-app:latest
+      containers:
+        - name: webapp
+          image: ivykiera/maven-web-app:latest
           env:
             - name: DB_URL
               value: jdbc:postgresql://postgres:5432/postgres
